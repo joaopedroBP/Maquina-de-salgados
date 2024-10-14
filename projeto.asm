@@ -1,10 +1,31 @@
-RS equ P1.3 ;Req select p1.3 
-EN equ P1.2 ;Enable p1.2
+RS equ P1.3 
+EN equ P1.2 
 
-ORG 0000h
+ORG 0000h 	
+	MOV 11h, #150
+	MOV 12h, #50
+	MOV 13h, #100
+	MOV 14h, #200
 	LJMP MAIN
 
 ORG 0030h
+inicia_teclado:
+	MOV 40H, #'#' 
+	MOV 41H, #'0'
+	MOV 42H, #'*'
+	MOV 43H, #'9'
+	MOV 44H, #'8'
+	MOV 45H, #'7'
+	MOV 46H, #'6'
+	MOV 47H, #'5'
+	MOV 48H, #'4'
+	MOV 49H, #'3'
+	MOV 4AH, #'2'
+	MOV 4BH, #'1'
+	
+	call DELAY
+	ret
+
 INI:
 	DB "MAQUINA SALGADOS"
 	DB 00h
@@ -20,9 +41,14 @@ S3:
 S4:
 	DB "S4-2.0"
 	DB 00h
+escolheu:
+	DB "escolheu S"
+	DB 00h
 
 ORG 0100h
+	LJMP MAIN
 MAIN:
+	ACALL inicia_teclado
 	ACALL Ini_lcd
 
 	MOV A, #00h
@@ -59,6 +85,34 @@ MAIN:
 	MOV DPTR, #s4
 	ACALL Escreve_String
 
+	CALL DELAY
+	loop1:
+		ACALL lerTeclado
+		JNB F0, loop1
+
+	CALL DELAY 
+	ACALL Clear_Display
+	CALL DELAY
+
+	MOV A, #00h
+	ACALL Pos_cursor
+
+	MOV DPTR, #escolheu
+	ACALL Escreve_String
+
+	MOV A, #40h
+	ADD A, R0
+	MOV R0, A
+	MOV A, @R0        
+	ACALL Envia_caracter
+	CLR f0
+	
+	loop2:
+		ACALL lerTeclado
+		JB F0, loop2
+	CALL DELAY
+	
+	ACALL Clear_Display
 	CALL DELAY
 	JMP $	
 
@@ -112,6 +166,7 @@ loop:
 		INC R1
 	MOV A, R1
 		JMP loop
+
 finish:
 	ret
 
@@ -217,9 +272,49 @@ Clear_display:
 	DJNZ R6, rotC
 	RET
 
-DELAY:
-	MOV R0, #50
-	DJNZ R0, $
+lerTeclado:
+	CLR F0
+	MOV R0, #0			
+
+	
+	MOV P0, #0FFh	
+	CLR P0.0			
+	CALL verColuna		
+	JB F0, lfinish		
+						
+	
+	SETB P0.0			
+	CLR P0.1			
+	CALL verColuna	
+	JB F0, lfinish	
+						
+	SETB P0.1			
+	CLR P0.2			
+	CALL verColuna		
+	JB F0, lfinish		
+
+	SETB P0.2			
+	CLR P0.3			
+	CALL verColuna	
+	JB F0, lfinish
+
+lfinish:
+	LJMP finish
+
+verColuna:
+	JNB P0.4,pegaTecla
+	INC R0
+	JNB P0.5,pegaTecla
+	INC R0
+	JNB P0.6, pegaTecla
+	INC R0
 	RET
 
+pegaTecla:
+	SETB F0
+	RET
 
+DELAY:
+	MOV R7, #50
+	DJNZ R7, $
+	RET
