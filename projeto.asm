@@ -1,6 +1,10 @@
 RS equ P1.3 
 EN equ P1.2 
 
+; Utilizando o Edsim51
+; Use update Freq 100
+; Use o teclado no modo Pulse
+
 ORG 0000h 	
 	MOV 11h, #150
 	MOV 12h, #50
@@ -93,7 +97,11 @@ MAIN:
 	CALL DELAY 
 	ACALL Clear_Display
 	CALL DELAY
+	
+	; Logica pagamento...	
 
+
+	; ...Logica pagamento
 	MOV A, #00h
 	ACALL Pos_cursor
 
@@ -108,8 +116,9 @@ MAIN:
 	CLR f0
 	
 	loop2:
-		ACALL lerTeclado
-		JB F0, loop2
+		MOV R7, #20
+		DEC R7
+		DJNZ R7, $
 	CALL DELAY
 	
 	ACALL Clear_Display
