@@ -1,3 +1,6 @@
+;INTEGRANTES
+;Alexandre Domiciano Pierri / RA: 24.123.001-0
+;João Pedro Bazoli Palma/ RA;24.123.041-6
 RS equ P1.3 
 EN equ P1.2 
 
@@ -5,13 +8,14 @@ EN equ P1.2
 ; Use update Freq 100
 ; Use o teclado no modo Pulse
 
+;coloca os 'preços' na memoria
 ORG 0000h 	
 	MOV 11h, #150
 	MOV 12h, #50
 	MOV 13h, #100
 	MOV 14h, #200
 	LJMP MAIN
-
+;incia o teclado
 ORG 0030h
 inicia_teclado:
 	MOV 40H, #'#' 
@@ -29,25 +33,31 @@ inicia_teclado:
 	
 	call DELAY
 	ret
-
+;Texto do incio
 INI:
 	DB "MAQUINA SALGADOS"
 	DB 00h
+;Texto do primeiro salgado
 S1:
 	DB "S1-1.50"
 	DB 00h
+;Texto do segundo salgado
 S2:
 	DB "S2-0.50"
 	DB 00h
-S3:
+;Texto do terceiro salgado
+ S3:
 	DB "S3-1.0"
 	DB 00h
+;texto do quarto salgado
 S4:
 	DB "S4-2.0"
 	DB 00h
+;texto que exibe a escolha
 escolheu:
 	DB "Dispensando S"
 	DB 00h
+;texto exibido caso a opção esteja errada
 opi:
 	DB "Op nao existe"
 	DB 00h
@@ -55,23 +65,32 @@ opi:
 ORG 0100h
 	LJMP MAIN
 MAIN:
+	;inicia o teclado
+	;incia o lcd
 	ACALL inicia_teclado
 	ACALL Ini_lcd
-
-	MOV A, #00h
-	ACALL Pos_cursor
 	
+	;posiciona o cursor
+	;para a primeira mensagem
+	MOV A, #00h
+	ACALL Pos_cursor	
+	
+	;primeira mensagem
 	MOV DPTR, #INI
 	ACALL Escreve_String
 	CALL DELAY
 	
-	ACALL Clear_Display
+	;limpa o LCD
+	ACALL Clear_Display 
 	CALL DELAY
-
+	
+	;Exibe no lcd os salgados
+	;S1
 	MOV DPTR, #S1
 	ACALL Escreve_String
 	CALL DELAY
 	
+	;S2
 	MOV A, #09
 	ACALL Pos_cursor
 	
@@ -79,6 +98,7 @@ MAIN:
 	ACALL Escreve_String
 	CALL DELAY
 	
+	;S3
 	MOV A, #0x40
 	ACALL Pos_cursor
 	
@@ -86,6 +106,7 @@ MAIN:
 	ACALL Escreve_String
 	CALL DELAY
 	
+	;S4
 	MOV A, #0x49
 	ACALL Pos_cursor
 	
@@ -93,6 +114,8 @@ MAIN:
 	ACALL Escreve_String
 
 	CALL DELAY
+	;loop que le o teclado até
+	;o usuario precionar um número
 	loop1:
 		ACALL lerTeclado
 		JNB F0, loop1
@@ -101,25 +124,23 @@ MAIN:
 	ACALL Clear_Display
 	CALL DELAY
 	
-	; Logica pagamento...	
-
-
-	; ...Logica pagamento
 	MOV A, #00h
 	ACALL Pos_cursor
-
+	
+	;apos o usuario apertar o botao
+	;passa o valor para o A
 	MOV A, #40h
 	ADD A, R0
 	MOV R0, A
+	MOV A, @R0
+  	
+	;Chama uma subrotina para verificar
+	;se o usuario apertou um botão
+	;incorreto
+ 
+	CALL Check_input1
 	
-	MOV 56h, 4
-	Loop3:
-		DEC 56h
-		DEC R0
-		DJNZ 56h,loop3
-
-	DJNZ R0, incorreto
-
+	;Mostra no lcd o que o usuario escolheu
 	MOV DPTR, #escolheu
 	ACALL Escreve_String
 
@@ -127,6 +148,8 @@ MAIN:
 	ACALL Envia_caracter
 	CLR f0
 	
+	;LOOP para que o programa
+	;NAO acabe tao rapido	
 	loop2:
 		MOV R7, #20
 		DEC R7
@@ -137,14 +160,35 @@ MAIN:
 	CALL DELAY
 	JMP MAIN	
 
+Check_input1:
+	MOV B, #'1'
+	CJNE A,B, Check_input2
+	ret
+Check_input2:
+	MOV B, #'2'
+	CJNE A, B, Check_input3
+	ret
+Check_input3:
+	MOV B, #'3'
+	CJNE A, B, Check_input4
+	ret
+Check_input4:
+	MOV B, #'4'
+	CJNE A, B, incorreto
+	ret
 
 incorreto:
-	MOV DPTR, #opi 
+	ACALL Clear_display
+	CALL DELAY
 
+	MOV DPTR, #opi 
 	ACALL Escreve_String
 	CALL DELAY
-	ACALL Clear_Display
 
+	ACALL Clear_display
+	CALL DELAY
+
+	CALL DELAY
 	JMP MAIN
 Ini_lcd: ;Inicializa o LCD
 	CLR RS 
