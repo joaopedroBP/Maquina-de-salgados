@@ -42,7 +42,7 @@ S4:
 	DB "S4-2.0"
 	DB 00h
 escolheu:
-	DB "escolheu S"
+	DB "Dispensando S"
 	DB 00h
 
 ORG 0100h
