@@ -114,7 +114,7 @@ MAIN:
 	
 	ACALL Clear_Display
 	CALL DELAY
-	JMP $	
+	JMP MAIN	
 
 Ini_lcd: ;Inicializa o LCD
 	CLR RS 
