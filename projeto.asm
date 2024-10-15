@@ -48,6 +48,9 @@ S4:
 escolheu:
 	DB "Dispensando S"
 	DB 00h
+opi:
+	DB "Op nao existe"
+	DB 00h
 
 ORG 0100h
 	LJMP MAIN
@@ -105,12 +108,21 @@ MAIN:
 	MOV A, #00h
 	ACALL Pos_cursor
 
-	MOV DPTR, #escolheu
-	ACALL Escreve_String
-
 	MOV A, #40h
 	ADD A, R0
 	MOV R0, A
+	
+	MOV 56h, 4
+	Loop3:
+		DEC 56h
+		DEC R0
+		DJNZ 56h,loop3
+
+	DJNZ R0, incorreto
+
+	MOV DPTR, #escolheu
+	ACALL Escreve_String
+
 	MOV A, @R0        
 	ACALL Envia_caracter
 	CLR f0
@@ -125,6 +137,15 @@ MAIN:
 	CALL DELAY
 	JMP MAIN	
 
+
+incorreto:
+	MOV DPTR, #opi 
+
+	ACALL Escreve_String
+	CALL DELAY
+	ACALL Clear_Display
+
+	JMP MAIN
 Ini_lcd: ;Inicializa o LCD
 	CLR RS 
 	
