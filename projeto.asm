@@ -139,7 +139,10 @@ MAIN:
 	;incorreto
  
 	CALL Check_input1
-	
+
+	;implementar a logica para o pagamento
+	;em andamento
+
 	;Mostra no lcd o que o usuario escolheu
 	MOV DPTR, #escolheu
 	ACALL Escreve_String
@@ -149,16 +152,23 @@ MAIN:
 	CLR f0
 	
 	;LOOP para que o programa
-	;NAO acabe tao rapido	
+	;NAO acabe tao rapido(provisorio)
 	loop2:
 		MOV R7, #20
 		DEC R7
 		DJNZ R7, $
 	CALL DELAY
+
 	
 	ACALL Clear_Display
 	CALL DELAY
 	JMP MAIN	
+
+;Checks para ver se o usuario
+;escolheu um botão errado
+;checa de 1 a 4
+;se não for nenhum deles
+;chama a subrotina incorreto
 
 Check_input1:
 	MOV B, #'1'
@@ -177,6 +187,10 @@ Check_input4:
 	CJNE A, B, incorreto
 	ret
 
+;informa o usuario que ele
+;escolheu errado o botão
+;reinicia o codigo na main
+
 incorreto:
 	ACALL Clear_display
 	CALL DELAY
@@ -190,6 +204,7 @@ incorreto:
 
 	CALL DELAY
 	JMP MAIN
+
 Ini_lcd: ;Inicializa o LCD
 	CLR RS 
 	
@@ -229,8 +244,8 @@ Ini_lcd: ;Inicializa o LCD
 
 	CALL delay		
 	RET
-
-Escreve_String:
+;subrotina que escreve uma string inteira
+Escreve_String: 
 	MOV R1, #00h
 loop:
 	MOV A, R1
@@ -241,9 +256,11 @@ loop:
 	MOV A, R1
 		JMP loop
 
+;subrotina que reotrna outra subrotina
 finish:
 	ret
 
+;subrotina que coloca o caracter no LCD
 Envia_caracter:
 	SETB RS
 	MOV C, ACC.7
@@ -273,7 +290,8 @@ Envia_caracter:
 	CALL DELAY
 	ret
 
-Pos_cursor: ;Coloca o cursor na posição desejada no lcd
+;Coloca o cursor na posição desejada no lcd
+Pos_cursor: 
 	CLR RS
 	SETB P1.7
 	MOV C,ACC.6
@@ -300,7 +318,8 @@ Pos_cursor: ;Coloca o cursor na posição desejada no lcd
 
 	CALL DELAY
 	RET
-
+;coloca o crusor na posição 0 do lcd
+;sem apagar o texto
 Retorna_cursor:
 	CLR RS	      
 	CLR P1.7		
@@ -321,7 +340,7 @@ Retorna_cursor:
 
 	CALL DELAY	
 	RET
-
+;limpa o texto do LCD
 Clear_display:
 	CLR RS	     
 	CLR P1.7		
@@ -346,6 +365,8 @@ Clear_display:
 	DJNZ R6, rotC
 	RET
 
+;subrotina que verifica se o usuario
+;apertou algum botão
 lerTeclado:
 	CLR F0
 	MOV R0, #0			
@@ -372,9 +393,15 @@ lerTeclado:
 	CALL verColuna	
 	JB F0, lfinish
 
+;subrotina que pula pro finish
+;tive que fazer ela porque por algum motivo usar
+;o finish normal na subrotina de ler teclado
+;dava um erro
+
 lfinish:
 	LJMP finish
 
+;verifica as colunas do teclado
 verColuna:
 	JNB P0.4,pegaTecla
 	INC R0
@@ -384,10 +411,13 @@ verColuna:
 	INC R0
 	RET
 
+;ativa o bit F0 se um botão tiver sido apertado
 pegaTecla:
 	SETB F0
 	RET
-
+;subrotina de Delay
+;usa um decremento para garantir que
+;subrotinas como Clear_Display funcionem sem erros
 DELAY:
 	MOV R7, #50
 	DJNZ R7, $
