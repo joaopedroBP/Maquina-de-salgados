@@ -62,6 +62,15 @@ opi:
 	DB "Op nao existe"
 	DB 00h
 
+; texto exibindo instruções do pagamento
+moedas1:
+	DB "1 = 50   2 = 100"
+	DB 00h
+
+moedas2:
+	DB "0 = confirmar"
+	DB 00h
+
 ORG 0100h
 	LJMP MAIN
 MAIN:
@@ -141,9 +150,22 @@ MAIN:
 	CALL Check_input1
 
 	;implementar a logica para o pagamento
-	;em andamento
+	MOV DPTR, #moedas1
+	ACALL Escreve_string
 
-	;Mostra no lcd o que o usuario escolheu
+	MOV A, #0x40
+	ACALL Pos_cursor	
+
+	MOV DPTR, #moedas2
+	ACALL Escreve_string
+
+	CALL DELAY
+	ACALL CLEAR_Display
+	CALL DELAY
+	MOV A, #00h
+	ACALL Pos_cursor
+	
+	;Mostra no lcd o que o usuario 	escolheu
 	MOV DPTR, #escolheu
 	ACALL Escreve_String
 
