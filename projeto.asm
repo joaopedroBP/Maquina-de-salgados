@@ -1,4 +1,4 @@
-;INTEGRANTES
+ ;INTEGRANTES
 ;Alexandre Domiciano Pierri / RA: 24.123.001-0
 ;João Pedro Bazoli Palma/ RA;24.123.041-6
 RS equ P1.3 
@@ -62,13 +62,23 @@ opi:
 	DB "Op nao existe"
 	DB 00h
 
-; texto exibindo instruções do pagamento
+; textos exibindo instruções do pagamento
 moedas1:
 	DB "1 = 50   2 = 100"
 	DB 00h
 
 moedas2:
 	DB "0 = confirmar"
+	DB 00h
+
+; texto para o troco
+troco:
+	DB "Devolvendo troco"
+	DB 00h
+
+; texto para falta de dinheiro
+falta:
+	DB "Faltam"
 	DB 00h
 
 ORG 0100h
@@ -94,33 +104,7 @@ MAIN:
 	CALL DELAY
 	
 	;Exibe no lcd os salgados
-	;S1
-	MOV DPTR, #S1
-	ACALL Escreve_String
-	CALL DELAY
-	
-	;S2
-	MOV A, #09
-	ACALL Pos_cursor
-	
-	MOV DPTR, #s2
-	ACALL Escreve_String
-	CALL DELAY
-	
-	;S3
-	MOV A, #0x40
-	ACALL Pos_cursor
-	
-	MOV DPTR, #s3
-	ACALL Escreve_String
-	CALL DELAY
-	
-	;S4
-	MOV A, #0x49
-	ACALL Pos_cursor
-	
-	MOV DPTR, #s4
-	ACALL Escreve_String
+	ACALL exibir_salgados
 
 	CALL DELAY
 	;loop que le o teclado até
@@ -165,6 +149,8 @@ MAIN:
 	MOV A, #00h
 	ACALL Pos_cursor
 	
+	ACALL inserir_moedas
+
 	;Mostra no lcd o que o usuario 	escolheu
 	MOV DPTR, #escolheu
 	ACALL Escreve_String
@@ -444,3 +430,64 @@ DELAY:
 	MOV R7, #50
 	DJNZ R7, $
 	RET
+
+;subrotina que printa todos os salgados
+; e precos
+exibir_salgados:
+	MOV DPTR, #S1
+	ACALL Escreve_String
+	CALL DELAY
+	
+	MOV A, #09
+	ACALL Pos_cursor
+	
+	MOV DPTR, #S2
+	ACALL Escreve_String
+	CALL DELAY
+	
+	MOV A, #0x40
+	ACALL Pos_cursor
+	
+	MOV DPTR, #S3
+	ACALL Escreve_String
+	CALL DELAY
+	
+	MOV A, #0x49
+	ACALL Pos_cursor
+	
+	MOV DPTR, #S4
+	ACALL Escreve_String
+	CALL DELAY
+	RET
+;Funções do pagamento
+
+;inicia moeda como 0
+inserir_moedas:
+    ACALL lerTeclado
+
+    ; Verifica se uma tecla foi pressionada
+    JNB F0, inserir_moedas
+    MOV A, R0
+    
+    ; Se 0 for apertado, para com a inserção
+    CJNE A, #'0', adiciona_moeda
+    JMP fim_insercao
+
+adiciona_moeda:
+    ; Se a tecla pressionada não for 1, verifica se foi 2
+    CJNE A, #'1', adiciona_moeda2
+    MOV A, R1
+    ADD A, #50
+    MOV R1, A
+    JMP inserir_moedas
+
+adiciona_moeda2:
+    CJNE A, #'2', inserir_moedas
+    MOV A, R1
+    ADD A, #100
+    MOV R1, A
+    JMP inserir_moedas
+
+fim_insercao:
+	 RET
+
