@@ -1,4 +1,4 @@
- ;INTEGRANTES
+;INTEGRANTES
 ;Alexandre Domiciano Pierri / RA: 24.123.001-0
 ;João Pedro Bazoli Palma/ RA;24.123.041-6
 RS equ P1.3 
@@ -10,10 +10,6 @@ EN equ P1.2
 
 ;coloca os 'preços' na memoria
 ORG 0000h 	
-	MOV 11h, #150
-	MOV 12h, #50
-	MOV 13h, #100
-	MOV 14h, #200
 	LJMP MAIN
 ;incia o teclado
 ORG 0030h
@@ -55,30 +51,37 @@ S4:
 	DB 00h
 ;texto que exibe a escolha
 escolheu:
-	DB "Dispensando S"
+	DB "Escolheu S"
 	DB 00h
 ;texto exibido caso a opção esteja errada
 opi:
 	DB "Op nao existe"
+	DB 00h
+mopi:
+	DB "Moeda nao existe"
 	DB 00h
 
 ; textos exibindo instruções do pagamento
 moedas1:
 	DB "1 = 50   2 = 100"
 	DB 00h
-
-moedas2:
-	DB "0 = confirmar"
+um_real:
+	DB "1 real"
 	DB 00h
-
+cinquenta_cents:
+	DB "50 cents"
+	DB 00h
 ; texto para o troco
-troco:
+Troco:
 	DB "Devolvendo troco"
 	DB 00h
 
-; texto para falta de dinheiro
-falta:
-	DB "Faltam"
+dispensando:
+	DB "Dispensando"
+	DB 00h
+
+salgado:
+	DB "Salgado"
 	DB 00h
 
 ORG 0100h
@@ -132,25 +135,7 @@ MAIN:
 	;incorreto
  
 	CALL Check_input1
-
-	;implementar a logica para o pagamento
-	MOV DPTR, #moedas1
-	ACALL Escreve_string
-
-	MOV A, #0x40
-	ACALL Pos_cursor	
-
-	MOV DPTR, #moedas2
-	ACALL Escreve_string
-
-	CALL DELAY
-	ACALL CLEAR_Display
-	CALL DELAY
-	MOV A, #00h
-	ACALL Pos_cursor
-	
-	ACALL inserir_moedas
-
+			
 	;Mostra no lcd o que o usuario 	escolheu
 	MOV DPTR, #escolheu
 	ACALL Escreve_String
@@ -158,10 +143,54 @@ MAIN:
 	MOV A, @R0        
 	ACALL Envia_caracter
 	CLR f0
+	MOV R4, #0
+	MOV R5, #0
+	loop2:
+		CALL DELAY
+		ACALL Clear_Display
+		CALL DELAY
+
+		MOV DPTR, #moedas1
+		ACALL Escreve_String
+		loop3:
+			ACALL lerTeclado
+			JNB F0, loop3
+		
+		MOV A, #40h
+		ADD A, R0
+		MOV R0, A
+		MOV A, @R0
+		
+
+		CALL DELAY
+		CALL check_moeda1
+		
+		MOV A, R7
+		ADD A, R4
+		MOV R4, A
+
+		MOV B, R3
+		CALL maior1
+		CALL maior2
+		CJNE A, B, loop2
+	
+	CALL DELAY
+	ACALL Clear_Display
+	CALL DELAY
+
+	MOV DPTR, #dispensando
+	CALL Escreve_String
+	
+	MOV A, #0x40
+	ACALL Pos_cursor
+	MOV DPTR, #salgado
+	CALL Escreve_String
+
+	CALL ftroco
 	
 	;LOOP para que o programa
 	;NAO acabe tao rapido(provisorio)
-	loop2:
+	loop4:
 		MOV R7, #20
 		DEC R7
 		DJNZ R7, $
@@ -181,18 +210,22 @@ MAIN:
 Check_input1:
 	MOV B, #'1'
 	CJNE A,B, Check_input2
+	MOV R3, #150
 	ret
 Check_input2:
 	MOV B, #'2'
 	CJNE A, B, Check_input3
+	MOV R3, #50
 	ret
 Check_input3:
 	MOV B, #'3'
 	CJNE A, B, Check_input4
+	MOV R3, #100
 	ret
 Check_input4:
 	MOV B, #'4'
 	CJNE A, B, incorreto
+	MOV R3, #200
 	ret
 
 ;informa o usuario que ele
@@ -461,33 +494,98 @@ exibir_salgados:
 	RET
 ;Funções do pagamento
 
-;inicia moeda como 0
-inserir_moedas:
-    ACALL lerTeclado
+check_moeda1:
+	MOV B, #'1'
+	CJNE A,B, Check_moeda2
+	CALL DELAY
+	ACALL Clear_Display
+	CALL DELAY
 
-    ; Verifica se uma tecla foi pressionada
-    JNB F0, inserir_moedas
-    MOV A, R0
-    
-    ; Se 0 for apertado, para com a inserção
-    CJNE A, #'0', adiciona_moeda
-    JMP fim_insercao
+	MOV DPTR, #cinquenta_cents
+	ACALL Escreve_String
+	MOV R7, #50
+	ret
+check_moeda2:
+	MOV B, #'2'
+	CJNE A, B, m_incorreta
+	CALL DELAY
+	ACALL Clear_Display
+	CALL DELAY
 
-adiciona_moeda:
-    ; Se a tecla pressionada não for 1, verifica se foi 2
-    CJNE A, #'1', adiciona_moeda2
-    MOV A, R1
-    ADD A, #50
-    MOV R1, A
-    JMP inserir_moedas
+	MOV DPTR, #um_real
+	ACALL Escreve_String
+	MOV R7, #100
+	ret
+m_incorreta:
+	ACALL Clear_display
+	CALL DELAY
 
-adiciona_moeda2:
-    CJNE A, #'2', inserir_moedas
-    MOV A, R1
-    ADD A, #100
-    MOV R1, A
-    JMP inserir_moedas
+	MOV DPTR, #mopi 
+	ACALL Escreve_String
+	CALL DELAY
 
-fim_insercao:
-	 RET
+	CALL DELAY
+	ACALL Clear_Display
+	CALL DELAY
 
+	MOV DPTR, #moedas1
+	ACALL Escreve_String
+
+	CALL DELAY
+	JMP loop2
+
+maior1:
+	SUBB A,B
+	MOV B, #100
+	CJNE A, B, menor
+	
+	MOV R5, A
+	MOV A, R3
+	ret
+maior2:
+	MOV B, R3
+	SUBB A,B
+	MOV B, #50
+	CJNE A,B, menor
+	
+	MOV R5, A
+	MOV A, R3
+	ret
+
+menor:
+	MOV A, R4
+	ret
+
+
+ftroco:
+	CJNE R5, #0, mostra_troco
+	ret
+
+mostra_troco:
+	CALL DELAY
+	ACALL Clear_Display
+	CALL DELAY
+
+	MOV DPTR, #Troco
+	ACALL Escreve_String
+	
+	ACALL checa_troco1
+	ret
+	
+checa_troco1:
+	MOV A, R5
+	MOV B, #100
+	CJNE A, B, checa_troco2
+		
+	MOV A, 0x40
+	ACALL Pos_cursor
+
+	MOV DPTR, #um_real
+	ACALL Escreve_String
+	ret
+checa_troco2:
+	MOV A, #0x40
+	ACALL Pos_cursor
+	MOV DPTR, #cinquenta_cents
+	ACALL Escreve_String
+	ret
