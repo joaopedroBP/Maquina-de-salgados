@@ -171,7 +171,6 @@ MAIN:
 
 		MOV B, R3
 		CALL maior1
-		CALL maior2
 		CJNE A, B, loop2
 	
 	CALL DELAY
@@ -535,19 +534,9 @@ m_incorreta:
 	JMP loop2
 
 maior1:
-	SUBB A,B
-	MOV B, #100
-	CJNE A, B, menor
-	
-	MOV R5, A
-	MOV A, R3
-	ret
-maior2:
-	MOV B, R3
-	SUBB A,B
-	MOV B, #50
-	CJNE A,B, menor
-	
+	CLR C
+	SUBB A, B
+	JC menor
 	MOV R5, A
 	MOV A, R3
 	ret
