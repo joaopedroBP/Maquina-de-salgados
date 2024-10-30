@@ -11,7 +11,7 @@
 <br>
 <img src = "https://github.com/user-attachments/assets/13f0cef9-26eb-4ae7-a0a9-77556577c777" alt="Iniciar o teclado" widht = "300" >
 
-- Textos usados na Main
+# Textos usados na Main
 <br>
 <img src = "https://github.com/user-attachments/assets/dee91e10-68d1-49f6-a1c3-473c68cf574f" alt="Textos usados na main" widht = "200" >
 <img src = "https://github.com/user-attachments/assets/93040cf0-9681-4690-93ac-2a963ee3f911" alt="Textos usados na main" widht = "200" >
