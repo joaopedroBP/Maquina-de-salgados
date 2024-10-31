@@ -21,4 +21,23 @@
 
 # Funções
 - Check_input: testa qual salgado foi escolhido. Primeiro testa se o salgado escolhido foi S1(Check_input1), e se não foi chama "Check_input2". Caso S2 não seja escolhido, "Check_input3" é chamado, e caso S3 não tenha sido escolhido, "Check_input4" é chamdo. Caso S4 não tenha sido escolhido, a função "incorreto" é chamada.
-<img src = "https://github.com/user-attachments/assets/d9ae74a5-a05a-46fc-b0ec-949eadcec6cd" alt="Textos usados na main" widht = "200" >
+  
+  <img src = "https://github.com/user-attachments/assets/d9ae74a5-a05a-46fc-b0ec-949eadcec6cd" alt="Função check input" widht = "200" >
+  
+- Incorreto: informa a o usuário que ele escolheu uma opção inválida e renicia o código na main
+  
+   <img src = "https://github.com/user-attachments/assets/71bf9244-3108-4fa2-bb62-e6192854e69c" alt="Função incorreto" widht = "200" >
+   
+- Ini_lcd: inicia o LCD de 2 linhas por 16 colunas
+  
+  <img src = "https://github.com/user-attachments/assets/9ff2fbeb-f96d-487c-88d3-75d63a1ca17e" alt="Função ini_lcd" widht = "200" >
+  <img src = "https://github.com/user-attachments/assets/1140b6d9-a3e2-4019-b85b-18e384f49903" alt="Função ini_lcd" widht = "200" >
+
+- Escreve_String: subrotina que escreve uma string inteira
+  
+  <img src = "https://github.com/user-attachments/assets/5b028373-3594-4920-90a7-b6b9c8801590" alt="Função escreve_string" widht = "200" >
+
+- 
+
+  
+
