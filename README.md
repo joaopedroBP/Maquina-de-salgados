@@ -37,7 +37,32 @@
   
   <img src = "https://github.com/user-attachments/assets/5b028373-3594-4920-90a7-b6b9c8801590" alt="Função escreve_string" widht = "200" >
 
+- Finish: subrotina que retorna outro subrotina
+  
+ <img src = "https://github.com/user-attachments/assets/0196d615-f0ad-4199-a451-22b4da6bb715" alt="Função finish" widht = "200" >
+ 
+- Envia_caracter: subrotina que coloca o caracter no LCD. O pino RS é ativado para sinalizar ao LCD que o dado enviado é um caractere e o byte mais significativo para os pinos "P1.7" a "P1.4" e  habilita o pino EN para sinalizar o envio do LCD.
+  
+  <img src = "https://github.com/user-attachments/assets/38de39a0-49a2-40e7-9991-da2fd5cb5aed" alt="Função envia_caracter" widht = "200" >
+  <img src = "https://github.com/user-attachments/assets/8627afc9-5bd4-4fc8-a231-c18fb40e27e5" alt="Função envia_caracter" widht = "200" >
+
+- Pos_cursor: Coloca o cursor na posição desejada no lcd
+
+  <img src = "https://github.com/user-attachments/assets/51aa2485-1970-4ef8-b301-ebaf522e314d" alt="Função pos_cursor" widht = "200" >
+  <img src = "https://github.com/user-attachments/assets/289bfece-efad-4973-8929-dc1fe524c599" alt="Função pos_cursor" widht = "200" >
+
+- Retorna cursor:  move o cursor do display LCD para a posição inicial
+  
+  <img src = "https://github.com/user-attachments/assets/14d00a0f-95d3-4abc-baec-3ba20436412d" alt="Função pos_cursor" widht = "200" >
+
+- Clear_display: limpa o display
+
+  <img src = "https://github.com/user-attachments/assets/400becbc-de55-48a6-8d39-488ba27b50f9" alt="Função pos_cursor" widht = "200" >
+  <img src = "https://github.com/user-attachments/assets/49f42f29-a69c-46bb-9c1a-fb23c52c73c1" alt="Função pos_cursor" widht = "200" >
+  
 - 
+ 
+   
 
   
 
