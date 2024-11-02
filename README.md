@@ -60,8 +60,32 @@
   <img src = "https://github.com/user-attachments/assets/400becbc-de55-48a6-8d39-488ba27b50f9" alt="Função pos_cursor" widht = "200" >
   <img src = "https://github.com/user-attachments/assets/49f42f29-a69c-46bb-9c1a-fb23c52c73c1" alt="Função pos_cursor" widht = "200" >
   
+- ler_teclado : subrotina que verifica se o usuário já apertou algum botão no teclado
+
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/176d6943-3494-4dc4-8b4d-cbe16e5a1349">
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/ff68c9e2-b4b9-4e08-b79d-c37bbf82ac18">
+
+- Ver_Coluna: verifica as colunas do telcado
+  
+   <img width="464" alt="Ver_coluna" src="https://github.com/user-attachments/assets/87d6c2ff-12b1-4474-973a-b01ede3ccc4b">
+   
+- Pegra_telca: ativa o bit F0 se um botão tiver sido apertado
+  
+  <img width="252" alt="Pegar_telca" src="https://github.com/user-attachments/assets/69684296-1b52-45da-8c68-e21c6b8ba65f">
+  
+- Delay: usa um decremento para garantir que subrotinas como Clear_Display funcionem sem erros
+  
+  <img width="210" alt="Delay" src="https://github.com/user-attachments/assets/318a3de5-e50f-41fd-99b1-0b8caebd9c61">
+
+- Exibir_salgados: printa todos salgados e e seus preços
+  
+<img width="432" alt="Exibir_salgados" src="https://github.com/user-attachments/assets/f99129b3-d459-43f2-b324-562eaaaa6aef">
+<img width="382" alt="Exibir_salgados" src="https://github.com/user-attachments/assets/5af00203-c495-4757-b49e-58bd839d616f">
+
 - 
- 
+
+
+
    
 
   
