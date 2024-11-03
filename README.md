@@ -12,6 +12,37 @@
 <br>
 <img src = "https://github.com/user-attachments/assets/13f0cef9-26eb-4ae7-a0a9-77556577c777" alt="Iniciar o teclado" widht = "300" >
 
+# Fluxograma do projeto
+flowchart TD
+    n1["COMEÇO<br>"] --> n3["INPUT DO USUARIO<br>"]
+    n3 -- NÃO --> n1
+    n3 -- SIM --> n4["CHECK INPUT<br>"]
+    n4 -- INPUT INVALIDO --> n1
+    n4 -- INPUT VALIDO --> n6["AGUARDANDO PAGAMENTO<br>"]
+    n6 --> n7["CHECK MOEDA<br>"]
+    n7 -- MOEDA INVALIDA --> n6
+    n7 --> n8["QUANTIDADE SUFICIENTE"]
+    n8 -- NAO --> n6
+    n8 -- SIM --> n9["DISPENSANDO SALGADO"]
+    n9 -- SEM TROCO --> n1
+    n9 -- COM TROCO --> n10["DISPENSANDO TROCO"]
+    n10 --> n1
+
+    n1@{ shape: rounded}
+    n3@{ shape: diam}
+    n4@{ shape: hex}
+    n6@{ shape: diam}
+    n7@{ shape: hex}
+    style n1 stroke:none,fill:#FFCDD2
+    style n3 fill:#FFE0B2,stroke:none
+    style n4 fill:#FF6D00,stroke:none
+    style n6 stroke:none,fill:#FFE0B2
+    style n7 stroke:none,fill:#FF6D00
+    style n8 stroke:none,fill:#BBDEFB
+    style n9 stroke:none,fill:#BBDEFB
+    style n10 stroke:none,fill:#BBDEFB
+
+
 # Textos usados na Main
 <br>
 <img src = "https://github.com/user-attachments/assets/dee91e10-68d1-49f6-a1c3-473c68cf574f" alt="Textos usados na main" widht = "200" >
