@@ -30,14 +30,14 @@ flowchart TD
     n10 --> n1
 
     %% Estilo dos nós
-    style n1 fill:#FFCDD2
-    style n3 fill:#FFE0B2
-    style n4 fill:#FF6D00
-    style n6 fill:#FFE0B2
-    style n7 fill:#FF6D00
-    style n8 fill:#BBDEFB
-    style n9 fill:#BBDEFB
-    style n10 fill:#BBDEFB
+    style n1 fill:#FFCDD2,color:black
+    style n3 fill:#FFE0B2,color:black
+    style n4 fill:#FF6D00,color:black
+    style n6 fill:#FFE0B2,color:black
+    style n7 fill:#FF6D00,color:black
+    style n8 fill:#BBDEFB,color:black
+    style n9 fill:#BBDEFB,color:black
+    style n10 fill:#BBDEFB,color:black
 ```
 
 
