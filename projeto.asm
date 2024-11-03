@@ -143,59 +143,104 @@ MAIN:
 	MOV A, @R0        
 	ACALL Envia_caracter
 	CLR f0
+
+	;Zera R4 e R5
 	MOV R4, #0
 	MOV R5, #0
+
+	;Loop que ocorre até que o usuario
+	;deposite um valor maior ou igual que
+	;o preço do salgado
 	loop2:
+		;Limpa o LCD
 		CALL DELAY
 		ACALL Clear_Display
 		CALL DELAY
 
+		;Mostra os botões correspondentes
+		;as moedas para o usuario
+	
 		MOV DPTR, #moedas1
 		ACALL Escreve_String
+
+		;loop que ocorre até que o usuario
+		;precione um botão
+
 		loop3:
 			ACALL lerTeclado
 			JNB F0, loop3
+
+		;Move o botão precionado para
+		;o acumulador A
 		
 		MOV A, #40h
 		ADD A, R0
 		MOV R0, A
 		MOV A, @R0
 		
+		;Chama a subrotina check_moeda1
+		;para verificar que moeda o usuario depositou
+		;ou se ele depositou uma moeda não admitida
 
 		CALL DELAY
 		CALL check_moeda1
+
+		;Acumula o valor depositado
+		;no acumulador A e no R4
 		
 		MOV A, R7
 		ADD A, R4
 		MOV R4, A
 
+		;Move o valor do preço do salgado
+		;para B e chama a subrotina maior1
+		;para verificar se o valor acumulado 
+		;até o momento é maior que o preço do
+		;salgado
+
 		MOV B, R3
 		CALL maior1
-		CJNE A, B, loop2
-	
+
+		;Compara A e B,se ambos forem iguais
+		;isso indica que o usuario depositou
+		;o valor necessário para comprar o salgado
+		;encerrando o loop, se forem diferentes
+		;ele volta para o inicio do loop
+
+		CJNE A, B, loop2 
+
+	;Limpa o LCD
+
 	CALL DELAY
 	ACALL Clear_Display
 	CALL DELAY
+	
+	;Mostra no Lcd que o salgado escolhido
+	;esta sendo dispensado
 
 	MOV DPTR, #dispensando
 	CALL Escreve_String
-	
+
 	MOV A, #0x40
 	ACALL Pos_cursor
 	MOV DPTR, #salgado
 	CALL Escreve_String
 
+	;chama a subrotina ftroco para vericar se existe
+	;troco e devolver o valor ao usuario(caso ele exista)
+
 	CALL ftroco
 	
 	;LOOP para que o programa
-	;NAO acabe tao rapido(provisorio)
+	;não acabe tão rapido
+
 	loop4:
 		MOV R7, #20
 		DEC R7
 		DJNZ R7, $
 	CALL DELAY
 
-	
+	;Limpa o LCD e reinicia o programa
 	ACALL Clear_Display
 	CALL DELAY
 	JMP MAIN	
@@ -493,6 +538,17 @@ exibir_salgados:
 	RET
 ;Funções do pagamento
 
+;Funções check_moeda
+;verificão se o usuario apertou um botão
+;correspondente a uma das moedas disponiveis
+
+;check_moeda1, verifica se a moeda é de 50 centavos
+;usando CJNE entre A que contem a tecla precionada e B
+;que contem o valor '1'
+;se não for chama check_moeda2
+;se for escreve na tela que o usuario depositou 50 centavos
+;e move 50 para o r7 para que na main ocorra o acumulo dos valores depositados
+
 check_moeda1:
 	MOV B, #'1'
 	CJNE A,B, Check_moeda2
@@ -504,6 +560,14 @@ check_moeda1:
 	ACALL Escreve_String
 	MOV R7, #50
 	ret
+
+;check_moeda2, verifica se a moeda é de 1 real
+;usando CJNE entre A que contem a tecla precionada e B
+;que contem o valor '2'
+;se não for chama m_incorreta
+;se for escreve na tela que o usuario depositou 1 real
+;e move 100 para o r7 para que na main ocorra o acumulo dos valores depositados
+
 check_moeda2:
 	MOV B, #'2'
 	CJNE A, B, m_incorreta
@@ -515,6 +579,10 @@ check_moeda2:
 	ACALL Escreve_String
 	MOV R7, #100
 	ret
+;informa o usuario que o botão que ele precionou
+;não corresponde a uma moeda permitida
+;e volta para o inicio do loop2 na main
+
 m_incorreta:
 	ACALL Clear_display
 	CALL DELAY
@@ -533,6 +601,22 @@ m_incorreta:
 	CALL DELAY
 	JMP loop2
 
+;subrotina que verifica se o valor acumulado
+;na hora do pagamento é maior que preço do
+;salgado selecionado
+
+;Para isso o valor do preço do salgado é
+;subtraido do valor acumulado com SUBB
+;caso haja carry, ele vai para a subrotina
+;menor, já que a existência de um carry indica que
+;o valor acumulado é menor que o preço do salgado
+
+;Se o valor for maior que o preço
+;ele move o restante da subtração
+;para o R5 e move o preço do salgado
+;para o acumulador A, para que o loop
+;que recebe o pagamento pare na MAIN
+
 maior1:
 	CLR C
 	SUBB A, B
@@ -541,14 +625,26 @@ maior1:
 	MOV A, R3
 	ret
 
+;subrotina que serve para restaurar o valor
+;do acumulador A para o valor que ele possuia
+;antes da subtração feita na subrotina maior1
 menor:
 	MOV A, R4
 	ret
 
+;subrotina que verifica com CJNE
+;se R5 é diferente de 0 indicando que existe
+;um valor de troco para devolver ao usuario
+;se existir ele chama a subrotina mostra_troco
 
 ftroco:
 	CJNE R5, #0, mostra_troco
 	ret
+
+;subrotina que mostra no LCD que
+;o programa esta devolvendo o troco
+;e chama a subrotina checa_troco1 para
+;ver qual o valor do troco
 
 mostra_troco:
 	CALL DELAY
@@ -560,7 +656,18 @@ mostra_troco:
 	
 	ACALL checa_troco1
 	ret
-	
+
+;subrotinas de checar_troco
+;verificam se o troco é 1 real
+;ou 50 centavos, o troco só pode
+;ser um desses valores por causa
+;das moedas admitidas pelo programa
+
+;subrotina que verifica se o valor no
+;R5 é 100 indicando que o troco é 1 real
+;se for ele imprime no LCD "1 real"
+;se não ele chama a subrotina checa_troco2
+
 checa_troco1:
 	MOV A, R5
 	MOV B, #100
@@ -572,6 +679,10 @@ checa_troco1:
 	MOV DPTR, #um_real
 	ACALL Escreve_String
 	ret
+;subrotina que imprime no LCD
+;"50 cents", ela não faz nenhuma checagem
+;já que o troco só pode ser 1 de 2 valores
+
 checa_troco2:
 	MOV A, #0x40
 	ACALL Pos_cursor
