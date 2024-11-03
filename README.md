@@ -14,33 +14,29 @@
 
 # Fluxograma do projeto
 flowchart TD
-    n1["COMEÇO<br>"] --> n3["INPUT DO USUARIO<br>"]
+    n1["COMEÇO<br>"] --> n3{"INPUT DO USUARIO<br>"}
     n3 -- NÃO --> n1
-    n3 -- SIM --> n4["CHECK INPUT<br>"]
-    n4 -- INPUT INVALIDO --> n1
-    n4 -- INPUT VALIDO --> n6["AGUARDANDO PAGAMENTO<br>"]
-    n6 --> n7["CHECK MOEDA<br>"]
-    n7 -- MOEDA INVALIDA --> n6
-    n7 --> n8["QUANTIDADE SUFICIENTE"]
-    n8 -- NAO --> n6
+    n3 -- SIM --> n4{"CHECK INPUT<br>"}
+    n4 -- INPUT INVÁLIDO --> n1
+    n4 -- INPUT VÁLIDO --> n6{"AGUARDANDO PAGAMENTO<br>"}
+    n6 --> n7{"CHECK MOEDA<br>"}
+    n7 -- MOEDA INVÁLIDA --> n6
+    n7 -- MOEDA VÁLIDA --> n8{"QUANTIDADE SUFICIENTE"}
+    n8 -- NÃO --> n6
     n8 -- SIM --> n9["DISPENSANDO SALGADO"]
     n9 -- SEM TROCO --> n1
     n9 -- COM TROCO --> n10["DISPENSANDO TROCO"]
     n10 --> n1
 
-    n1@{ shape: rounded}
-    n3@{ shape: diam}
-    n4@{ shape: hex}
-    n6@{ shape: diam}
-    n7@{ shape: hex}
-    style n1 stroke:none,fill:#FFCDD2
-    style n3 fill:#FFE0B2,stroke:none
-    style n4 fill:#FF6D00,stroke:none
-    style n6 stroke:none,fill:#FFE0B2
-    style n7 stroke:none,fill:#FF6D00
-    style n8 stroke:none,fill:#BBDEFB
-    style n9 stroke:none,fill:#BBDEFB
-    style n10 stroke:none,fill:#BBDEFB
+    %% Estilo dos nós
+    style n1 fill:#FFCDD2
+    style n3 fill:#FFE0B2
+    style n4 fill:#FF6D00
+    style n6 fill:#FFE0B2
+    style n7 fill:#FF6D00
+    style n8 fill:#BBDEFB
+    style n9 fill:#BBDEFB
+    style n10 fill:#BBDEFB
 
 
 # Textos usados na Main
