@@ -13,6 +13,7 @@
 <img src = "https://github.com/user-attachments/assets/13f0cef9-26eb-4ae7-a0a9-77556577c777" alt="Iniciar o teclado" widht = "300" >
 
 # Fluxograma do projeto
+```mermaid
 flowchart TD
     n1["COMEÇO<br>"] --> n3{"INPUT DO USUARIO<br>"}
     n3 -- NÃO --> n1
@@ -37,6 +38,7 @@ flowchart TD
     style n8 fill:#BBDEFB
     style n9 fill:#BBDEFB
     style n10 fill:#BBDEFB
+```
 
 
 # Textos usados na Main
