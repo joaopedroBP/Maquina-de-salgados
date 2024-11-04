@@ -151,23 +151,23 @@ flowchart TD
   # MAIN:
 
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/322d45c2-9172-4261-9296-b05a8148ff8e">
-  
+  <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/46a2ee17-b1a2-4e8f-b10f-73af44af8ec7">
-
+   <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/94f4cd34-38ba-4096-9d5e-7a7328ac60c4">
-
+   <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/9db02d3a-e4c3-48f4-ae54-fa4c8f410788">
-
+  <br>  
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/8f95b855-1ad3-4c68-b292-cee4d78f3a47">
-
+  <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/39f61181-3fcc-48c8-a885-6ac88649efea">
-
+  <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/57e85b08-b331-4463-8fdc-16bc7f9ebc6c">
-
+  <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/69aad382-b462-4dae-aa21-c08863caf5df">
-
+  <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/f0f81c59-db69-4510-ac05-0f4a004d6576">
-
+  <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/3bd4a5c3-7bdf-487f-b528-16f049eca1df">
 
 
