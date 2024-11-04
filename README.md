@@ -8,6 +8,10 @@
 <br>
 <img src="https://github.com/user-attachments/assets/705fdca7-ca06-44d2-831e-9fa6db83bbae" alt="Configurações para o funcionamento do projeto" width="300">
 
+- Velocidade do motor similar a da imagem abaixo
+<img src = "![motor](https://github.com/user-attachments/assets/c3b46f60-72c2-4d5f-99ef-ef0d28803e2e)" alt= "configuração da velocidade do motor" width="300">
+
+
 - Iniciar o teclado: cada endereço recebe um determinado caracter
 <br>
 <img src = "https://github.com/user-attachments/assets/13f0cef9-26eb-4ae7-a0a9-77556577c777" alt="Iniciar o teclado" widht = "300" >
