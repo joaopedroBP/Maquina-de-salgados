@@ -111,7 +111,68 @@ flowchart TD
 <img width="432" alt="Exibir_salgados" src="https://github.com/user-attachments/assets/f99129b3-d459-43f2-b324-562eaaaa6aef">
 <img width="382" alt="Exibir_salgados" src="https://github.com/user-attachments/assets/5af00203-c495-4757-b49e-58bd839d616f">
 
-- 
+- check_moeda1: verifica se a moeda é de 50 centavos usando CJNE entre A que contem a tecla precionada e B que contem o valor '1'. Se não for chama check_moeda2, e se for escreve na tela que o usuario depositou 50 centavos e move 50 para o r7 para que na main ocorra o acumulo dos valores depositados
+  
+  <img width="300" alt="check_moeda1" src="https://github.com/user-attachments/assets/61815318-b7e3-4e58-b17f-cc87d9db68c7">
+
+- check_moeda2: verifica se a moeda é de 1 real usando CJNE entre A que contem a tecla precionada e B que contem o valor '2'. Se não for chama m_incorreta, e se for escreve na tela que o usuario depositou 1 real e move 100 para o r7 para que na main ocorra o acumulo dos valores depositados
+  
+  <img width="300" alt="check_moeda2" src="https://github.com/user-attachments/assets/ccd89e8d-a3fe-45b3-92bb-762c9d431662">
+
+- m_incorreta: informa o usuario que o botão que ele pressionou não corresponde a uma moeda permitida e volta para o inicio do loop2 na main
+  
+  <img width="300" alt="m_incorreta" src="https://github.com/user-attachments/assets/082184ad-96a9-43eb-9a59-3348543fa605">
+
+- maior_1: subrotina que verifica se o valor acumulado na hora do pagamento é maior que preço do salgado selecionado. Para isso o valor do preço do salgado é subtraido do valor acumulado com SUBB. Caso haja carry, ele vai para a subrotina menor, já que a existência de um carry indica que o valor acumulado é menor que o preço do salgado. Se o valor for maior que o preço ele move o restante da subtração para o R5 e move o preço do salgado para o acumulador A, para que o loop que recebe o pagamento pare na MAIN
+  
+  <img width="300" alt="maior_1" src="https://github.com/user-attachments/assets/aaffc551-ec45-4c0b-a6b5-2a7f024b0190">
+
+- menor: subrotina que serve para restaurar o valor do acumulador A para o valor que ele possuiaantes da subtração feita na subrotina maior1
+
+  <img width="300" alt="menor" src="https://github.com/user-attachments/assets/057ddd3c-9b6d-4166-a083-3506c15301f0">
+
+- f_troco: subrotina que verifica com CJNE. Se R5 é diferente de 0, existe um valor de troco para devolver e a subrotina mostra_troco é chamada
+
+  
+  <img width="300" alt="f_troco" src="https://github.com/user-attachments/assets/a209f94f-7e28-4f68-90eb-1d50eb0ff8f2">
+ 
+- mostra_troco: subrotina que mostra no LCD que o programa esta devolvendo o troco e chama a subrotina checa_troco1 para ver qual o valor do troco
+
+  <img width="300" alt="mostra_troco" src="https://github.com/user-attachments/assets/e066a3cd-49a6-4a75-9b03-3f8d32713ed7">
+  
+- checa_troco1: subrotina que verifica se o valor no R5 é 100 indicando que o troco é 1 real. Se for ele imprime no LCD "1 real" e se não for ele chama a subrotina checa_troco2
+
+  <img width="300" alt="checa_troco1" src="https://github.com/user-attachments/assets/95fb6e96-6f54-49d3-90b4-f8d9c12a6957">
+
+- checa_troco2: subrotina que imprime no LCD "50 cents". Ela não faz nenhuma checagem já que o troco só pode ser 1 de 2 valores
+
+  <img width="300" alt="checa_troco2" src="https://github.com/user-attachments/assets/55df1ef1-1f4b-4cd6-98ac-86a2cf2a1fd5">
+  
+  # MAIN:
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/322d45c2-9172-4261-9296-b05a8148ff8e">
+  
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/46a2ee17-b1a2-4e8f-b10f-73af44af8ec7">
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/94f4cd34-38ba-4096-9d5e-7a7328ac60c4">
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/9db02d3a-e4c3-48f4-ae54-fa4c8f410788">
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/8f95b855-1ad3-4c68-b292-cee4d78f3a47">
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/39f61181-3fcc-48c8-a885-6ac88649efea">
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/57e85b08-b331-4463-8fdc-16bc7f9ebc6c">
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/69aad382-b462-4dae-aa21-c08863caf5df">
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/f0f81c59-db69-4510-ac05-0f4a004d6576">
+
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/3bd4a5c3-7bdf-487f-b528-16f049eca1df">
+
+
+
+
 
 
 
