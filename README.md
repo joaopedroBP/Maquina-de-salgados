@@ -1,5 +1,5 @@
-# <p align="center">Maquina-de-salgados</p> 
-> Um programa codificado em assembly para o simulador Edsim51 que busca implementar o funcionamento de uma maquina de venda de salgadinhos. O programa inicia com uma mensagem mostrando as opções de salgado juntamente com o prçeo de cada um e qual botão deve ser  pressionado para selecionar cada salgadinho. Por meio do teclado, o usuário seleciona entre 4 opções: S1(botão 1 do telcado), S2(botão 2 do telcado), S3(botão 3 do telcado) e S4(botão 4 do telcado). Caso qualquer outro botão tenha sido apertado, a máquina irá aprentar uma mensagem dizendo que essa opção é invalida e o programa repetirá o processo até que uma opção válida tenha sido selecionada.<br><br>Depois de selecionar uma opção válida, uma mensagem irá aparecer indicando quais botões devem ser pressionados para executar o pagamento, que será por moedas de 50 centavos e 100 centavos(1 real). Qualquer outro botão pressionado não irá afetar em nada o programa. A medida que os botões coreespondentes a 50 centavos e 1 real forem pressionados uma mensagem irá aparecer dizendo qual moeda foi inserida na maquina. O código só irá para quando o valor pago for maior ou igual ao valor do salgado. Caso o valor seja maior, uma mensagem será exibida dizendo qual será o troco que será exibido.<br><br>Por fim, haverá uma mensagem avisando que o salgadinho "X" será dispejado da máquina e assim o programa finaliza.
+![image](https://github.com/user-attachments/assets/44228665-04cd-463b-a9ff-cc74654b17d2)# <p align="center">Maquina-de-salgados</p> 
+> Um programa codificado em assembly para o simulador Edsim51 que busca implementar o funcionamento de uma maquina de venda de salgadinhos. O programa inicia com uma mensagem mostrando as opções de salgado juntamente com o prçeo de cada um e qual botão deve ser  pressionado para selecionar cada salgadinho. Por meio do teclado, o usuário seleciona entre 4 opções: S1(botão 1 do telcado), S2(botão 2 do telcado), S3(botão 3 do telcado) e S4(botão 4 do telcado). Caso qualquer outro botão tenha sido apertado, a máquina irá aprentar uma mensagem dizendo que essa opção é invalida e o programa repetirá o processo até que uma opção válida tenha sido selecionada.<br><br>Depois de selecionar uma opção válida,o motor da edsim se movera para a posição correspondente a do salgado escolhido, após isso, uma mensagem irá aparecer indicando quais botões devem ser pressionados para executar o pagamento, que será por moedas de 50 centavos e 100 centavos(1 real). Qualquer outro botão pressionado não irá afetar em nada o programa. A medida que os botões coreespondentes a 50 centavos e 1 real forem pressionados uma mensagem irá aparecer dizendo qual moeda foi inserida na maquina. O código só irá para quando o valor pago for maior ou igual ao valor do salgado. Caso o valor seja maior, uma mensagem será exibida dizendo qual será o troco que será exibido.<br><br>Por fim, haverá uma mensagem avisando que o salgadinho "X" será dispejado da máquina, o motor retornara para sua posição original e assim o programa finaliza.
  
 
 # Configurações antes de começar: 
@@ -8,8 +8,9 @@
 <br>
 <img src="https://github.com/user-attachments/assets/705fdca7-ca06-44d2-831e-9fa6db83bbae" alt="Configurações para o funcionamento do projeto" width="300">
 
+
 - Velocidade do motor similar a da imagem abaixo
-<img src = "![motor](https://github.com/user-attachments/assets/c3b46f60-72c2-4d5f-99ef-ef0d28803e2e)" alt= "configuração da velocidade do motor" width="300">
+<img src = "https://github.com/user-attachments/assets/c3b46f60-72c2-4d5f-99ef-ef0d28803e2e" alt= "configuração da velocidade do motor" width="300">
 
 
 - Iniciar o teclado: cada endereço recebe um determinado caracter
@@ -53,10 +54,11 @@ flowchart TD
 <img src = "https://github.com/user-attachments/assets/08485c0e-1a75-4117-a816-2c54a535f988" alt="Textos usados na main" widht = "200" >
 
 # Funções
-- Check_input: testa qual salgado foi escolhido. Primeiro testa se o salgado escolhido foi S1(Check_input1), e se não foi chama "Check_input2". Caso S2 não seja escolhido, "Check_input3" é chamado, e caso S3 não tenha sido escolhido, "Check_input4" é chamdo. Caso S4 não tenha sido escolhido, a função "incorreto" é chamada.
+- Check_input: O conjunto de subrotinas verifica qual botão o usuário apertou e se o valor está no intervalo de 1 a 4. A subrotina check1 verifica se o botão pressionado é o 1; se não for, chama check2. Esse processo continua até check4, que, caso o botão não seja o 4, chama a subrotina incorreto. Cada subrotina também define o preço do salgado escolhido no registrador R3 e aciona uma subrotina que move o motor para a posição correspondente ao salgado selecionado.
   
-  <img src = "https://github.com/user-attachments/assets/d9ae74a5-a05a-46fc-b0ec-949eadcec6cd" alt="Função check input" widht = "200" >
-  
+  <img src = "https://github.com/user-attachments/assets/15faf286-0a12-41bc-bff0-13f702fe45b9" alt="Função check input" widht = "200" height ="300">
+  <img src = "https://github.com/user-attachments/assets/73b91086-e1c1-4b6b-8878-dfea3b7cf370" alt="Função check input" widht = "200" height ="300">
+ 
 - Incorreto: informa a o usuário que ele escolheu uma opção inválida e renicia o código na main
   
    <img src = "https://github.com/user-attachments/assets/71bf9244-3108-4fa2-bb62-e6192854e69c" alt="Função incorreto" widht = "200" >
@@ -151,6 +153,17 @@ flowchart TD
 - checa_troco2: subrotina que imprime no LCD "50 cents". Ela não faz nenhuma checagem já que o troco só pode ser 1 de 2 valores
 
   <img width="300" alt="checa_troco2" src="https://github.com/user-attachments/assets/55df1ef1-1f4b-4cd6-98ac-86a2cf2a1fd5">
+- Move_S: O conjunto de subrotinas que move o motor para a posição relacionada ao salgado escolhido
+
+  <img src = "https://github.com/user-attachments/assets/fc4d32fc-b4bc-4cf4-9626-e95cedb2d005" widht = "200" height ="300">
+  <img src = "https://github.com/user-attachments/assets/4b85d0d8-0bb5-452f-8971-df2f647ec54d" widht = "200" height ="300">
+  <br>
+  <img src = "https://github.com/user-attachments/assets/fa22b72d-097a-447b-bbb1-1231301c3d9b" widht = "200" height ="300">
+  <img src = "https://github.com/user-attachments/assets/4d8d2341-16f2-4589-9f74-2943efdcabfa" widht = "200" height ="300">
+
+- Volta_motor: subrotina que retorna o motor para sua posição original
+
+  <img src = "https://github.com/user-attachments/assets/d2371ebd-3513-42f1-b2aa-197c5d6d4741" widht = "200" height ="300">
   
   # MAIN:
 
@@ -172,7 +185,7 @@ flowchart TD
   <br>
   <img width="300" alt="main" src="https://github.com/user-attachments/assets/f0f81c59-db69-4510-ac05-0f4a004d6576">
   <br>
-  <img width="300" alt="main" src="https://github.com/user-attachments/assets/3bd4a5c3-7bdf-487f-b528-16f049eca1df">
+  <img width="300" alt="main" src="https://github.com/user-attachments/assets/f0b36739-b2d0-4127-b4ff-20a0e47288f7">
 
 
 
