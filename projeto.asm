@@ -89,8 +89,10 @@ ORG 0100h
 MAIN:
 	;inicia o teclado
 	;incia o lcd
+	;inicia o motor
 	ACALL inicia_teclado
 	ACALL Ini_lcd
+
 	
 	;posiciona o cursor
 	;para a primeira mensagem
@@ -112,6 +114,7 @@ MAIN:
 	CALL DELAY
 	;loop que le o teclado até
 	;o usuario precionar um número
+	
 	loop1:
 		ACALL lerTeclado
 		JNB F0, loop1
@@ -135,7 +138,14 @@ MAIN:
 	;incorreto
  
 	CALL Check_input1
-			
+	
+	;Se o input for valido
+	;ele move o motor para
+	;a posição relacionada
+	;com o salgado escolhido
+	;simulando a maquina
+	;"pegando" o salgado
+		
 	;Mostra no lcd o que o usuario 	escolheu
 	MOV DPTR, #escolheu
 	ACALL Escreve_String
@@ -225,6 +235,11 @@ MAIN:
 	ACALL Pos_cursor
 	MOV DPTR, #salgado
 	CALL Escreve_String
+	
+	;volta o motor para a posição
+	;original simulando a maquina
+	;"entregando" o salgado
+	ACALL Volta_motor
 
 	;chama a subrotina ftroco para vericar se existe
 	;troco e devolver o valor ao usuario(caso ele exista)
@@ -251,25 +266,34 @@ MAIN:
 ;se não for nenhum deles
 ;chama a subrotina incorreto
 
+;Também chamam as subrotians
+;que posicionam o motor
+;de acordo com o salgado
+;escolhido
+
 Check_input1:
 	MOV B, #'1'
 	CJNE A,B, Check_input2
 	MOV R3, #150
+	ACALL Move_S1
 	ret
 Check_input2:
 	MOV B, #'2'
 	CJNE A, B, Check_input3
 	MOV R3, #50
+	ACALL Move_S2
 	ret
 Check_input3:
 	MOV B, #'3'
 	CJNE A, B, Check_input4
 	MOV R3, #100
+	ACALL Move_S3
 	ret
 Check_input4:
 	MOV B, #'4'
 	CJNE A, B, incorreto
 	MOV R3, #200
+	ACALL Move_s4
 	ret
 
 ;informa o usuario que ele
@@ -688,4 +712,79 @@ checa_troco2:
 	ACALL Pos_cursor
 	MOV DPTR, #cinquenta_cents
 	ACALL Escreve_String
+	ret
+
+;Subrotinas MOVE_Sx
+;Movem o motor para
+;uma posição diferente
+;para cada salgado
+;utilizando um loop com DJNZ em R2
+;com valores diferentes dependendo
+;do salgado
+
+;Elas também restauram R2 no final
+;para usar na subrotina Volta-motor
+
+Move_S1:
+	SETB p3.0
+	CLR p3.1
+	MOV R2, #7
+	MOV B, #7
+	loops1:
+		DJNZ R2, loops1
+	CLR p3.0
+	CLR p3.1
+	MOV R2, B
+	RET
+
+Move_S2:
+	SETB p3.0
+	CLR p3.1
+	MOV R2, #14
+	MOV B, #14
+	loops2:
+		DJNZ R2, loops2
+	CLR p3.0
+	CLR p3.1
+	MOV R2, B
+	RET
+
+Move_S3:
+	SETB p3.0
+	CLR p3.1
+	MOV R2, #25
+	MOV B, #25
+	loops3:
+		DJNZ R2, loops3
+	CLR p3.0
+	CLR p3.1
+	MOV R2, B
+	RET
+
+Move_S4:
+	SETB p3.0
+	CLR p3.1
+	MOV R2, #28
+	MOV B, #28
+	loops4:
+		DJNZ R2, loops4
+	CLR p3.0
+	CLR p3.1
+	MOV R2, B
+	RET
+
+;subrotina que volta o motor
+;para a posição original
+;utiliza um loop com DJNZ R2
+;movendo o motor a mesma quantidade
+;de vezes que a função que o moveu anteriormente
+;só que na direção contraria
+
+Volta_motor:
+	SETB p3.1
+	CLR p3.0
+	loop_volta:
+		DJNZ R2,loop_volta
+	CLR p3.0
+	CLR p3.1
 	ret
